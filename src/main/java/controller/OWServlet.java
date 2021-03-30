@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,10 +35,17 @@ public class OWServlet extends HttpServlet {
 		String city = request.getParameter("city");
 		String country = request.getParameter("country");
 		
+		Cookie cityCookie = new Cookie("City", city);
+		Cookie countryCookie = new Cookie("Country", country);
+		Cookie cityAndCountryCookie = new Cookie("City&Country", city + "-" + country);
+		
+		response.addCookie(cityCookie);
+		response.addCookie(countryCookie);
+		response.addCookie(cityAndCountryCookie);
+		
+		
 		WeatherBean weatherBean = new WeatherBean(city, country);
-		
 		WeatherGetter.getWeather(weatherBean);
-		
 		request.setAttribute("weatherBean", weatherBean);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("showWeather.jsp");

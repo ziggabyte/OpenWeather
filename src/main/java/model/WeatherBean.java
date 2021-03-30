@@ -3,8 +3,9 @@ package model;
 public class WeatherBean {
 	private String city;
 	private String country;
-	private String cityWeather;
+	private String temperature;
 	private String clouds;
+	private String localTime;
 	
 	public WeatherBean(String city, String country) {
 		this.city = city;
@@ -27,12 +28,13 @@ public class WeatherBean {
 		return city;
 	}
 
-	public String getCityWeather() {
-		return cityWeather;
+	public String getTemperature() {
+		return temperature;
 	}
 
-	public void setCityWeather(String cityWeather) {
-		this.cityWeather = cityWeather;
+	public void setTemperature(String temperatureInKelvin) {
+		int temperatureInCelsius = (int) Math.floor((Double.valueOf(temperatureInKelvin) - 273.15));
+		this.temperature = String.valueOf(temperatureInCelsius);
 	}
 
 	public String getClouds() {
@@ -41,5 +43,14 @@ public class WeatherBean {
 
 	public void setClouds(String clouds) {
 		this.clouds = clouds;
+	}
+
+	public String getLocalTime() {
+		return localTime;
+	}
+
+	public void setLocalTime(String lastUpdated) {
+		String localTime = lastUpdated.substring(0, lastUpdated.indexOf("T"));
+		this.localTime = localTime;
 	}
 }
