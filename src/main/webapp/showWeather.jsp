@@ -16,7 +16,7 @@ WeatherBean weatherBean = (WeatherBean) request.getAttribute("weatherBean");
 String weatherReport = weatherBean.getLocalTime() + " "
 		+ weatherBean.getCity() + " has " 
 		+ weatherBean.getClouds() + " and a temperature of " 
-		+ weatherBean.getTemperature() + " degrees.";
+		+ weatherBean.getTemperature() + " degrees C.";
 
 out.print(weatherReport);
 

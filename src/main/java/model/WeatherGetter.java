@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -26,18 +27,36 @@ public class WeatherGetter {
 		wBean.setLocalTime(getXMLAttribute(doc, "lastupdate", "value"));
 	}
 	
-	private static String getXMLAttribute(Document doc, String tagName, String attributeName) {
-		NodeList nodeListTagName = doc.getElementsByTagName(tagName);
-		String attribute = null;
-				
-		for (int i = 0; i < nodeListTagName.getLength(); i++) {
-			Node node = nodeListTagName.item(i);
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
-				Element eElement = (Element) node;
-				attribute = eElement.getAttribute(attributeName);
-			}
+	private static URL createURL(WeatherBean wBean) throws MalformedURLException {
+		String URLtoSend = "http://api.openweathermap.org/data/2.5/weather?q=" 
+				+ wBean.getCity() + ","
+				+ wBean.getCountry() + "&APPID=b0b73b21e2a3f1dc048905b0174645a6&mode=xml";
+
+		return new URL(URLtoSend);
+	}
+	
+	private static HttpURLConnection getHttpConnection(WeatherBean wBean) throws IOException {
+		HttpURLConnection linec = (HttpURLConnection) createURL(wBean).openConnection();
+		linec.setDoInput(true);
+		linec.setDoOutput(true);
+		linec.setRequestMethod("GET");
+		
+		return linec;
+	}
+
+	private static String getApiResponse(WeatherBean wBean) throws IOException {
+		HttpURLConnection linec = getHttpConnection(wBean);
+		BufferedReader in = new BufferedReader(new InputStreamReader(linec.getInputStream()));
+
+		String inputLine;
+		String ApiResponse = "";
+
+		while ((inputLine = in.readLine()) != null) {
+			ApiResponse += inputLine;
 		}
-		return attribute;
+				
+		in.close();
+		return ApiResponse;
 	}
 
 	private static Document convertStringToXMLDocument(String xmlString) {
@@ -55,34 +74,16 @@ public class WeatherGetter {
 		return null;
 	}
 	
-	private static String getApiResponse(WeatherBean wBean) throws IOException {
-		HttpURLConnection linec = getHttpConnection(wBean);
-		BufferedReader in = new BufferedReader(new InputStreamReader(linec.getInputStream()));
-
-		String inputLine;
-		String ApiResponse = "";
-
-		while ((inputLine = in.readLine()) != null) {
-			ApiResponse += inputLine;
+	private static String getXMLAttribute(Document doc, String tagName, String attributeName) {
+		NodeList nodeListTagName = doc.getElementsByTagName(tagName);
+		String attribute = null;	
+		for (int i = 0; i < nodeListTagName.getLength(); i++) {
+			if (nodeListTagName.item(i).getNodeType() == Node.ELEMENT_NODE) {
+				Element eElement = (Element) nodeListTagName.item(i);
+				attribute = eElement.getAttribute(attributeName);
+			}
 		}
-				
-		in.close();
-		return ApiResponse;
-	}
-	
-	private static HttpURLConnection getHttpConnection(WeatherBean wBean) throws IOException {
-		String URLtoSend = "http://api.openweathermap.org/data/2.5/weather?q=" 
-				+ wBean.getCity() + ","
-				+ wBean.getCountry() + "&APPID=b0b73b21e2a3f1dc048905b0174645a6&mode=xml";
-
-		URL line_api_url = new URL(URLtoSend);
-
-		HttpURLConnection linec = (HttpURLConnection) line_api_url.openConnection();
-		linec.setDoInput(true);
-		linec.setDoOutput(true);
-		linec.setRequestMethod("GET");
-		
-		return linec;
+		return attribute;
 	}
 
 }
