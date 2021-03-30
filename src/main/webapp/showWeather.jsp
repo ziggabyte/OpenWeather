@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Ziggi's Weather App</title>
+<link rel="stylesheet" href="styles.css">
+<script defer src="index.js"></script>
 </head>
 <body>
 
@@ -13,6 +15,7 @@
 
 <%
 WeatherBean weatherBean = (WeatherBean) request.getAttribute("weatherBean");
+
 String weatherReport = weatherBean.getLocalTime() + " "
 		+ weatherBean.getCity() + " has " 
 		+ weatherBean.getClouds() + " and a temperature of " 
@@ -21,6 +24,8 @@ String weatherReport = weatherBean.getLocalTime() + " "
 out.print(weatherReport);
 
 %>
+
+<div id="testDiv"></div>
 
 
 </body>
