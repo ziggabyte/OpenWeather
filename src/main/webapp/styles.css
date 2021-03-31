@@ -1,17 +1,38 @@
 @charset "UTF-8";
 
 * {
-	padding: 0;
-	margin: 0;
-	box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-html, body {
-	height: 100%;
-	width: 100%;
+html,
+body {
+  height: 100%;
+  width: 100%;
 }
 
-#testDiv {
-	border: 1px solid red;
-	height: 5rem;
+body {
+  display: grid;
+  grid-template-areas: "head" "form" "prev";
+}
+
+main {
+  margin: 2rem;
+  grid-area: form;
+}
+
+.prevSearchContainer {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  border: 1px solid black;
+  grid-area: prev;
+}
+
+.prevSearch {
+  width: 25%;
+  border: 1px solid red;
+  background-color: yellow;
+  margin: 2rem;
 }

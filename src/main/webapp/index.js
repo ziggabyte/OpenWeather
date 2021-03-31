@@ -1,9 +1,5 @@
 "use strict";
 
-let cookies = [];
-cookies = document.cookie;
-
-console.log(cookies);
-
-let testDiv = document.getElementById("testDiv");
-testDiv.textContent = "Hola";
+let test = document.getElementsByClassName("prevSearch");
+typeof test;
+console.log(test);

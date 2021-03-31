@@ -34,25 +34,46 @@ public class OWServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String city = request.getParameter("city");
 		String country = request.getParameter("country");
-		
-		Cookie cityCookie = new Cookie("City", city);
-		Cookie countryCookie = new Cookie("Country", country);
-		Cookie cityAndCountryCookie = new Cookie("City&Country", city + "-" + country);
-		
-		response.addCookie(cityCookie);
-		response.addCookie(countryCookie);
-		response.addCookie(cityAndCountryCookie);
-		
-		
+				
+		checkExistingCookies(request, response, city, country);
+		request = addWeatherToRequest(request, city, country);
+		forwardRequest(request, response);	
+	}
+	
+	private HttpServletRequest addWeatherToRequest(HttpServletRequest request, String city, String country) throws IOException {
 		WeatherBean weatherBean = new WeatherBean(city, country);
 		WeatherGetter.getWeather(weatherBean);
 		request.setAttribute("weatherBean", weatherBean);
-		
+		return request;
+	}
+	
+	private void forwardRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher rd = request.getRequestDispatcher("showWeather.jsp");
 		rd.forward(request, response);
-		
 	}
-
+	
+	private void checkExistingCookies(HttpServletRequest request, HttpServletResponse response, String city, String country) {
+		Cookie[] cookies = request.getCookies();
+		
+		if (cookies.length > 1) {
+			addToCookie(cookies[1],  response, city + ":" + country + "-");
+		} else {
+			newCookie(response, "City&Country", city + ":" + country + "-");
+		}
+	}
+	
+	private void newCookie(HttpServletResponse response, String key, String value) {
+		Cookie cookie = new Cookie(key, value);
+		cookie.setMaxAge(600);
+		response.addCookie(cookie);
+	}
+	
+	private void addToCookie(Cookie cookie, HttpServletResponse response, String value ) {
+		cookie.setValue(cookie.getValue() + value);
+		cookie.setMaxAge(600);
+		response.addCookie(cookie);
+	}
+ 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
