@@ -24,9 +24,5 @@ String weatherReport = weatherBean.getLocalTime() + " "
 out.print(weatherReport);
 
 %>
-
-<div id="testDiv"></div>
-
-
 </body>
 </html>

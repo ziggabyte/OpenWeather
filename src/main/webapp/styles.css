@@ -13,6 +13,7 @@ body {
 }
 
 body {
+  background-color: yellow;
   display: grid;
   grid-template-areas: "head" "form" "prev";
 }

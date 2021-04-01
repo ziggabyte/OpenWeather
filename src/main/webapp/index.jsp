@@ -12,7 +12,7 @@
 </head>
 <body>
 <%!
-private void makePrevSearchDiv(JspWriter out, String city, String country) throws IOException {
+private void makePrevSearchDiv(JspWriter out, String city, String country, String id) throws IOException {
 			out.print("<div class='prevSearch'>" + city + " " + country + "</div>");
 }
 
@@ -24,9 +24,11 @@ if (cookies.length > 1) {
 	String[] splitIntoPairs = cookies[1].getValue().split("-");
 	out.print("<div class='prevSearchContainer'><h2>Previous searches</h2>");
 	
+	int id = 0;
 	for (String s : splitIntoPairs) {
 		String[] temp = s.split(":");
-		makePrevSearchDiv(out, temp[0], temp[1]);
+		makePrevSearchDiv(out, temp[0], temp[1], String.valueOf(id));
+		id++;
 	}
 	out.print("</div>");
 }
