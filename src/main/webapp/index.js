@@ -1,6 +1,17 @@
 "use strict";
 
+let weatherContainer = document.createElement("div");
+weatherContainer.className = "weatherContainer";
+document.querySelector("body").appendChild(weatherContainer);
+weatherContainer.style.visibility = "hidden";
 
+let weatherHeader = document.createElement("h2");
+weatherHeader.textContent = "Weather report";
+weatherContainer.appendChild(weatherHeader);
+
+let weatherContent = document.createElement("div");
+weatherContent.className = "weather";
+weatherContainer.appendChild(weatherContent);
 
 let apiCall = function () {
   let url = createURL(
@@ -10,21 +21,27 @@ let apiCall = function () {
   fetch(url)
     .then((response) => response.text())
     .then((data) => stringToXML(data))
-    .then((xml) => testFunction(xml))
+    .then((xml) => displayWeather(xml))
     .catch((err) => console.log(err));
 };
 
-let testFunction = function (xml) {
+let displayWeather = function (xml) {
+  console.log(xml);
   let clouds = xml.querySelector("clouds").getAttribute("name");
   let temperatureInKelvin = xml
     .querySelector("temperature")
     .getAttribute("value");
   let lastUpdate = xml.querySelector("lastupdate").getAttribute("value");
-  console.log(
-    clouds,
-    convertTemperature(temperatureInKelvin),
-    formatDate(lastUpdate)
-  );
+
+  weatherContent.textContent =
+    formatDate(lastUpdate) +
+    " " +
+    weatherBean.getCity() +
+    " has " +
+    clouds +
+    " and a temperature of " +
+    convertTemperature(temperatureInKelvin) +
+    " degrees C.";
 };
 
 let createURL = function (city, country) {
