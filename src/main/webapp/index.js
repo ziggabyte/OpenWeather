@@ -1,5 +1,7 @@
 "use strict";
 
+
+
 let apiCall = function () {
   let url = createURL(
     this.innerHTML.split(" ")[0],
@@ -14,9 +16,15 @@ let apiCall = function () {
 
 let testFunction = function (xml) {
   let clouds = xml.querySelector("clouds").getAttribute("name");
-  let temperature = xml.querySelector("temperature").getAttribute("value");
+  let temperatureInKelvin = xml
+    .querySelector("temperature")
+    .getAttribute("value");
   let lastUpdate = xml.querySelector("lastupdate").getAttribute("value");
-  console.log(clouds, temperature, lastUpdate);
+  console.log(
+    clouds,
+    convertTemperature(temperatureInKelvin),
+    formatDate(lastUpdate)
+  );
 };
 
 let createURL = function (city, country) {
@@ -27,6 +35,14 @@ let createURL = function (city, country) {
     country +
     "&APPID=b0b73b21e2a3f1dc048905b0174645a6&mode=xml"
   );
+};
+
+let convertTemperature = function (temperatureInKelvin) {
+  return Math.round(parseFloat(temperatureInKelvin) - 273.15);
+};
+
+let formatDate = function (lastUpdate) {
+  return lastUpdate.substring(0, lastUpdate.indexOf("T"));
 };
 
 let stringToXML = function (text) {

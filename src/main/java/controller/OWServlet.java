@@ -48,18 +48,24 @@ public class OWServlet extends HttpServlet {
 	}
 	
 	private void forwardRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("showWeather.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 		rd.forward(request, response);
 	}
 	
 	private void checkExistingCookies(HttpServletRequest request, HttpServletResponse response, String city, String country) {
 		Cookie[] cookies = request.getCookies();
 		
-		if (cookies.length > 1) {
-			addToCookie(cookies[1],  response, city + ":" + country + "-");
-		} else {
-			newCookie(response, "City&Country", city + ":" + country + "-");
+		System.out.println(cookies);
+		
+		if (cookies != null) {
+			if (cookies.length > 1) {
+				addToCookie(cookies[1],  response, city + ":" + country + "-");
+			} else {
+				newCookie(response, "City&Country", city + ":" + country + "-");
+			}
 		}
+		
+		
 	}
 	
 	private void newCookie(HttpServletResponse response, String key, String value) {
