@@ -59,7 +59,9 @@ public class OWServlet extends HttpServlet {
 		
 		if (cookies != null) {
 			if (cookies.length > 1) {
-				addToCookie(cookies[1],  response, city + ":" + country + "-");
+				if (!cookies[1].getValue().contains(city + ":" + country)) {
+					addToCookie(cookies[1],  response, city + ":" + country + "-");
+				}
 			} else {
 				newCookie(response, "City&Country", city + ":" + country + "-");
 			}
