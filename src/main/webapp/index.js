@@ -1,17 +1,7 @@
 "use strict";
 
-let weatherContainer = document.createElement("div");
-weatherContainer.className = "weatherContainer";
-document.querySelector("body").appendChild(weatherContainer);
-weatherContainer.style.visibility = "hidden";
-
-let weatherHeader = document.createElement("h2");
-weatherHeader.textContent = "Weather report";
-weatherContainer.appendChild(weatherHeader);
-
-let weatherContent = document.createElement("div");
-weatherContent.className = "weather";
-weatherContainer.appendChild(weatherContent);
+let weatherContainer = document.getElementById("prevSearchContainer");
+let weatherContent = document.getElementById("weatherContent");
 
 let apiCall = function () {
   let url = createURL(
@@ -26,17 +16,17 @@ let apiCall = function () {
 };
 
 let displayWeather = function (xml) {
-  console.log(xml);
   let clouds = xml.querySelector("clouds").getAttribute("name");
   let temperatureInKelvin = xml
     .querySelector("temperature")
     .getAttribute("value");
   let lastUpdate = xml.querySelector("lastupdate").getAttribute("value");
+  let city = xml.querySelector("city").getAttribute("name");
 
   weatherContent.textContent =
     formatDate(lastUpdate) +
     " " +
-    weatherBean.getCity() +
+    city +
     " has " +
     clouds +
     " and a temperature of " +

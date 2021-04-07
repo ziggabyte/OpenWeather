@@ -16,55 +16,55 @@ body {
   display: grid;
   grid-template-areas: "head" "weather" "form" "prev";
   font-family: Roboto;
-  background-color: #EDEAE5;
-  
+  background-color: #edeae5;
 }
-
 
 header {
-	color: #026670;
+  color: #026670;
   height: 4rem;
-  
 }
 
-h1, h2, h3 {
-	padding: 1rem;
+h1,
+h2,
+h3 {
+  padding: 1rem;
 }
 
 form {
-	margin: 1rem;
+  margin: 1rem;
   display: flex;
   flex-direction: column;
 }
 
 form * {
-	margin: 1rem;
+  margin: 1rem;
 }
 
 .formContainer {
-	background-color: #9FEDD7;
+  background-color: #9fedd7;
   grid-area: form;
-  	margin: 1rem;
-  
+  margin: 1rem;
 }
 
 .weatherContainer {
-		background-color: #9FEDD7;
-	
-	margin: 1rem;
+  background-color: #9fedd7;
+
+  margin: 1rem;
   grid-area: weather;
 }
 
-.weather {
-	  margin: 2rem;
-	
+.invisible {
+  display: none;
 }
 
+.weatherContent {
+  margin: 2rem;
+}
 
 .prevSearchContainer {
-		background-color: #9FEDD7;
-	
-		margin: 1rem;
+  background-color: #9fedd7;
+
+  margin: 1rem;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -74,5 +74,5 @@ form * {
 .prevSearch {
   margin: 1rem 2rem 1rem 2rem;
   padding: 1rem;
-  background-color: #FCE181;
+  background-color: #fce181;
 }

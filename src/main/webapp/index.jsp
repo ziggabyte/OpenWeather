@@ -40,23 +40,28 @@ if (cookies.length > 1) {
 	}
 	out.print("</div>");
 }
+%>
+<header>
+<h1>Ziggi's weather app</h1>
+</header>
 
+
+<div <% if (weatherBean == null) { out.print(" class='invisible'"); } else { out.print("class='weatherContainer'");} %> id="weatherContainer">
+<h2 <% if (weatherBean == null) out.print(" class='invisible'"); %>>Weather report</h2>
+<div class="weatherContent" id="weatherContent" >
+<%
 if (weatherBean != null) {
 	String weatherReport = weatherBean.getLocalTime() + " "
 			+ weatherBean.getCity() + " has " 
 			+ weatherBean.getClouds() + " and a temperature of " 
 			+ weatherBean.getTemperature() + " degrees C.";
 
-	out.print("<div class='weatherContainer'><h2>Weather report</h2>");
-	out.print("<div class='weather'>");
 	out.print(weatherReport);
-	out.print("</div></div>");
 }
-
 %>
-<header>
-<h1>Ziggi's weather app</h1>
-</header>
+</div>
+</div>
+
 <div class="formContainer">
 <h2>Search</h2>
 <form action="<%=request.getContextPath()%>/OWServlet" method="post">
